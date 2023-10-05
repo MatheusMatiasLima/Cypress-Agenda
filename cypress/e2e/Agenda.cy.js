@@ -4,70 +4,39 @@ describe('Agenda', () => {
     cy.visit('https://tarefas-fc129.web.app/home')
   })
   
-  it('Crair tarefas "Comprar Arroz" e "Comprar Feijão"', () => {
+  it ('Crair tarefas "Comprar Arroz" e "Comprar Feijão"', () => {
 
-    cy.get('input').should('have.attr', 'placeholder', 'Ex. Tomar vacina').type('Comprar Arroz');
-    cy.get('.button').eq(0).click();
+    cy.adicionarTarefa('Comprar Arroz');
     cy.contains('Comprar Arroz').should('be.visible');
-    
-    cy.get('input').should('have.attr', 'placeholder', 'Ex. Tomar vacina').type('Comprar Feijão');
-    cy.get('.button').eq(0).click();
+    cy.adicionarTarefa('Comprar Feijão');
     cy.contains('Comprar Feijão').should('be.visible');
   })
  
-  it('Remover tarefa', () => {
+  it ('Remover tarefa', () => {
 
-    cy.contains('Comprar Feijão')
-    .parent('ion-item')  
-    .find('ion-button') 
-    .click();
+    cy.clicarIonButton('Comprar Feijão');
+    cy.clicarOpcaoMenu(2);
+    cy.contains('Comprar Feijão').should('not.exist');
 
-    cy.contains('Menu')
-      .should('be.visible')
-      .parent('div')
-      .find('button')
-      .eq(2)
-      .click();
   })
 
-  it ('Editar tarefa', () => {
+  it('Editar tarefa', () => {
 
-    cy.contains('Comprar Arroz')
-      .parent('ion-item')
-      .find('ion-button')
-      .click();
-
-    cy.contains('Menu')
-      .should('be.visible')
-      .parent('div')
-      .find('button')
-      .eq(0)
-      .click();
-
+    cy.clicarIonButton('Comprar Arroz')
+    cy.clicarOpcaoMenu(0);
     cy.contains('Editar tarefa').should('be.visible');
-    
     cy.get('#alert-input-2-0')
       .clear()
       .type('Arroz de risoto');
-    
     cy.contains('button','Salvar').click();
-
     cy.contains('Arroz de risoto').should('be.visible');
+
   })
 
   it ('Agendar tarefa',  () => {
 
-    cy.contains('Arroz de risoto')
-      .parent('ion-item')
-      .find('ion-button')
-      .click();
-
-    cy.contains('Menu')
-      .should('be.visible')
-      .parent('div')
-      .find('button')
-      .eq(1)
-      .click();
+    cy.clicarIonButton('Arroz de risoto');
+    cy.clicarOpcaoMenu(1);
 
     cy.contains('Agendar tarefa').should('be.visible');
     
@@ -135,9 +104,7 @@ describe('Agenda', () => {
   it ('Excluir todos os iguais', () => {
     
     for (let i=0; i < 5; i++) {
-      cy.get('input').should('have.attr', 'placeholder', 'Ex. Tomar vacina').type('item repetido');
-      cy.get('.button').eq(0).click();
-      cy.contains('item repetido').should('be.visible');
+      cy.adicionarTarefa('item repetido');
     }
 
     cy.get('ion-item') 

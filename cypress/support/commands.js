@@ -1,7 +1,26 @@
-import '@4tw/cypress-drag-drop'
-import 'cypress-real-events'
 
+Cypress.Commands.add ('adicionarTarefa', function (NomeDaTarefa) {
+    cy.get('input').should('have.attr', 'placeholder', 'Ex. Tomar vacina').type(NomeDaTarefa);
+    cy.get('.button').eq(0).click();
+    
+}) 
 
+Cypress.Commands.add ('clicarIonButton', function (label) {
+    cy.contains(label)
+    .parent('ion-item')  
+    .find('ion-button') 
+    .click();
+})
+
+Cypress.Commands.add ('clicarOpcaoMenu', function (numeroDaOpcao) {
+    cy.contains('Menu')
+    .should('be.visible')
+    .parent('div')
+    .find('button')
+    .eq(numeroDaOpcao)
+    .click();
+    
+})
 
 // ***********************************************
 // This example commands.js shows you how to

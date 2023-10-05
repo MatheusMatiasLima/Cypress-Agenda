@@ -1,7 +1,7 @@
 describe('Agenda', () => {
   
   beforeEach( () => {
-    cy.visit('https://tarefas-fc129.web.app/home')
+    cy.visit('https://tarefas-fc129.web.app/home');
   })
   
   it ('Crair tarefas "Comprar Arroz" e "Comprar Feijão"', () => {
@@ -113,13 +113,7 @@ describe('Agenda', () => {
     .each( ($button) => {
       cy.wrap($button)
       .click();
-
-      cy.contains('Menu')
-      .should('be.visible')
-      .parent('div')
-      .find('button')
-      .eq(2)
-      .click();
+      cy.clicarOpcaoMenu(2);
     })
     .should('not.contain', 'item repetido');
 
@@ -135,40 +129,18 @@ describe('Agenda', () => {
       cy.wrap($button)
       .click();
 
-      cy.contains('Menu')
-      .should('be.visible')
-      .parent('div')
-      .find('button')
-      .eq(2)
-      .click();
+      cy.clicarOpcaoMenu(2);
     });
     cy.contains('Oba, minha lista de tarefas está vazia!').should('be.visible');
  
   })
 
   it ('reordenar itens' , () => {
-    
-    cy.get('input')
-      .should('have.attr', 'placeholder', 'Ex. Tomar vacina')
-      .type('Item A');
-    cy.get('.button')
-      .eq(0)
-      .click();
-    
-    cy.contains('Item A').should('be.visible');
-    
-    cy.get('input')
-      .should('have.attr', 'placeholder', 'Ex. Tomar vacina')
-      .type('Item B');
-    cy.get('.button')
-      .eq(0)
-      .click();
-    
-    cy.contains('Item B').should('be.visible');
 
-    cy.get('.button')
-      .eq(1)
-      .click();
+    cy.adicionarTarefa('Item A');
+    cy.contains('Item A').should('be.visible');
+    cy.adicionarTarefa('Item B');
+    cy.contains('Item B').should('be.visible');
         
     cy.contains('Item A')
     .parent('ion-item')
